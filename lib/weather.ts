@@ -2,7 +2,25 @@ import type { WeatherSnapshot } from '@/types/weather'
 
 export function windDirection(degrees: number | null) {
   if (degrees === null) return '—'
-  return ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(degrees / 45) % 8]
+  const directions = [
+    'North',
+    'North-North-East',
+    'North-East',
+    'East-North-East',
+    'East',
+    'East-South-East',
+    'South-East',
+    'South-South-East',
+    'South',
+    'South-South-West',
+    'South-West',
+    'West-South-West',
+    'West',
+    'West-North-West',
+    'North-West',
+    'North-North-West',
+  ]
+  return directions[Math.round(degrees / 22.5) % 16]
 }
 
 export function weatherLabel(code: number | null) {
