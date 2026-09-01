@@ -98,6 +98,9 @@ export default function Page() {
             <p className="hero-copy">Continuous real-time atmosphere monitoring for the Drone &amp; Robotics Lab.</p>
           </div>
           <div className="hero-orbit" aria-hidden="true">
+            <div className="orbit-pulse pulse-one" />
+            <div className="orbit-pulse pulse-two" />
+            <div className="orbit-pulse pulse-three" />
             <div className="orbit-ring ring-one" />
             <div className="orbit-ring ring-two" />
             <div className="orbit-core">
