@@ -44,7 +44,7 @@ function Card({
 export default function Page() {
   const [showFullscreenPrompt, setShowFullscreenPrompt] = useState(false)
 
-  const { data: sensors } = useSensorData()
+  const { data: sensors, connection, error } = useSensorData()
   const { data: weather, loading } = useWeatherData()
   const display = (n: number | null, d = 0) => (n === null ? '—' : n.toFixed(d))
 
@@ -86,6 +86,13 @@ export default function Page() {
               <MapPin size={13} />
               <span>Drone &amp; Robotics Lab</span>
             </div>
+            <div
+              className="status-chip"
+              title={error || (connection === 'connected' ? 'Firebase Realtime Database Connected' : connection === 'connecting' ? 'Connecting to Firebase...' : 'Firebase Disconnected')}
+            >
+              <span className={`status-dot ${connection}`} />
+              <span>{connection === 'connected' ? 'Live' : connection === 'connecting' ? 'Connecting' : 'Offline'}</span>
+            </div>
             <button className="icon-btn" onClick={handleEnterFullscreen} title="Full Screen"><Maximize2 size={15} /></button>
             <button className="icon-btn" onClick={() => window.location.reload()} title="Refresh"><RefreshCw size={15} /></button>
           </div>
@@ -111,7 +118,14 @@ export default function Page() {
         </section>
 
         <section className="card-section">
-          <p className="section-eyebrow">INDOOR · DRONE &amp; ROBOTICS LAB</p>
+          <div className="section-head">
+            <p className="section-eyebrow">INDOOR · DRONE &amp; ROBOTICS LAB</p>
+            {error && (
+              <span className="error-badge" title={error}>
+                {error.includes('Permission Denied') ? 'Firebase Rules: Permission Denied' : 'Firebase Offline'}
+              </span>
+            )}
+          </div>
           <div className="metrics">
             <Card icon={Thermometer} label="Temperature" value={sensors.temperature.value} unit="°C"    accent="#ef233c" />
             <Card icon={Droplets}   label="Humidity"    value={sensors.humidity.value}    unit="%"      accent="#3b82f6" />
